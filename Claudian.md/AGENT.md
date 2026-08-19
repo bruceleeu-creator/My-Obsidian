@@ -30,9 +30,34 @@ vault 根
 1. **流程**：先提问澄清 → 需求/设计文档 → 执行计划 → 执行（Bruce 确认后再动手）
 2. **README**：每个文件夹都要有，用简单口语中文
 3. **文档**：系统文档集中在 `Claudian.md/`，改动系统后同步更新 [[防弹笔记法]]
-4. **Git**：内容有更新就 commit + push 到 `https://github.com/bruceleeu-creator/My-Obsidian.git`
-5. **代理绕过**（推送失败时用）：`git -c http.proxy= -c https.proxy= push`
+4. **Git**：内容有更新就 commit + push 到 `https://github.com/bruceleeu-creator/My-Obsidian.git`——**细则见下方「📤 GitHub 备份细则」，必读必守**
 6. **模板**：3 个（日志/周任务/周期），放 `Claudian.md/模板/`；周任务模板的 `cycle` 链接每周期要换
+
+## 📤 GitHub 备份细则（所有协作者必守）
+
+**仓库**：https://github.com/bruceleeu-creator/My-Obsidian.git（**公开**仓库）
+
+### 推送流程
+1. 内容有更新（新建 / 修改 / 删除笔记）→ `git add -A`
+2. `git commit -m "<type>: <中文描述>"`，type 用 `feat / fix / docs / refactor / chore`
+3. 推送：`git -c http.proxy= -c https.proxy= push origin main`
+
+### ⚠️ 代理坑（必看，否则推送失败）
+- 全局 git 配置了 `http.proxy = http://127.0.0.1:7890`（Clash 代理）
+- **代理软件没开时**普通 `git push` 会报 `Failed to connect to 127.0.0.1 port 7890`
+- 解法：推送命令临时加 `-c http.proxy= -c https.proxy=` 绕过（**不改全局配置**）；或先开代理再普通 push
+
+### 提交规范
+- conventional commits 前缀 + 中文描述，写清楚改了什么：
+  - `feat: 新增知识卡片栏目（raw 素材箱 + wiki 知识库）`
+  - `docs: 关系图谱打通（笔记 ↔ 知识卡片 ↔ Claudian.md 双向链接）`
+  - `refactor: 移除原子卡片 + MOC 体系`
+- 一个 commit 只干一件事，别把无关改动混在一起
+
+### 🔒 隐私红线（公开仓库！）
+- `.claudian/`（插件会话隐私）、`.DS_Store`、`.obsidian/workspace*.json` 已被 .gitignore 排除——**永远不要手动 `git add` 它们**
+- 笔记内容禁止出现密码 / 密钥 / 身份证 / 手机号等敏感信息
+- 拿不准的内容先问 Bruce 再提交
 
 ## 📐 数据结构速查
 | 文件 | 命名 | 关键 frontmatter |

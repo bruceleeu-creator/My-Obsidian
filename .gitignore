@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Obsidian 废纸篓
+.Trash/
+.trash/
+
+# 插件会话数据（隐私）
+.claudian/
+
+# Obsidian 窗口状态（每台设备不同）
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json

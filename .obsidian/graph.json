@@ -1,0 +1,29 @@
+{
+  "collapse-filter": true,
+  "search": "",
+  "showTags": false,
+  "showAttachments": false,
+  "hideUnresolved": false,
+  "showOrphans": true,
+  "collapse-color-groups": false,
+  "colorGroups": [
+    {"query": "path:\"任务/日志\"", "color": {"a": 1, "rgb": 5025616}},
+    {"query": "path:\"任务/周任务\"", "color": {"a": 1, "rgb": 2201331}},
+    {"query": "path:\"目标/十二周周期\"", "color": {"a": 1, "rgb": 16750592}},
+    {"query": "path:\"知识卡片\"", "color": {"a": 1, "rgb": 10235312}},
+    {"query": "path:\"Claudian.md\"", "color": {"a": 1, "rgb": 12377428}},
+    {"query": "path:\"创作区\"", "color": {"a": 1, "rgb": 16771899}}
+  ],
+  "collapse-display": false,
+  "showArrow": false,
+  "textFadeMultiplier": 0,
+  "nodeSizeMultiplier": 1,
+  "lineSizeMultiplier": 1,
+  "collapse-forces": false,
+  "centerStrength": 0.518713248970312,
+  "repelStrength": 10,
+  "linkStrength": 1,
+  "linkDistance": 250,
+  "scale": 0.26425545429203884,
+  "close": true
+}

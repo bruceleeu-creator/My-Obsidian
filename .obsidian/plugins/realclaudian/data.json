@@ -1,0 +1,17 @@
+{
+  "tabManagerState": {
+    "openTabs": [
+      {
+        "tabId": "tab-1786958843890-eqx3h49",
+        "conversationId": "conv-1786993246238-j1msqni29"
+      }
+    ],
+    "activeTabId": "tab-1786958843890-eqx3h49"
+  },
+  "providerConfigs": {
+    "claude": {
+      "enabled": true,
+      "environmentVariables": "ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic\nANTHROPIC_AUTH_TOKEN=sk-caaafcb746364df28ff8131ff25b3ba5\nANTHROPIC_MODEL=deepseek-chat\nANTHROPIC_SMALL_FAST_MODEL=deepseek-chat"
+    }
+  }
+}

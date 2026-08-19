@@ -1,0 +1,5 @@
+{
+  "folder": "任务/日志",
+  "format": "YYYY-MM-DD",
+  "template": "Claudian.md/模板/日志模板"
+}

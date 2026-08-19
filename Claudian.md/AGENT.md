@@ -40,10 +40,21 @@ vault 根
 
 **仓库**：https://github.com/bruceleeu-creator/My-Obsidian.git（**公开**仓库）
 
-### 推送流程
-1. 内容有更新（新建 / 修改 / 删除笔记）→ `git add -A`
-2. `git commit -m "<type>: <中文描述>"`，type 用 `feat / fix / docs / refactor / chore`
-3. 推送：`git -c http.proxy= -c https.proxy= push origin main`
+### 上传 GitHub 完整步骤
+1. **查看改动**：`git status`（确认改了哪些文件）
+2. **暂存**：`git add -A`（⚠️ 永不手动加 `.claudian/`、`.DS_Store`、`workspace*.json`）
+3. **提交**：`git commit -m "<type>: <中文描述>"`，type 用 `feat / fix / docs / refactor / chore`
+4. **推送**：`git -c http.proxy= -c https.proxy= push origin main`
+5. **确认成功**：`git status` 显示工作区干净 = 已同步；或 `git -c http.proxy= -c https.proxy= ls-remote origin` 查远程 main 的 hash
+
+### 分支说明（当前状态）
+- 仓库目前**只用 `main` 一个分支**，推送目标始终是 `origin main`
+- 如果其他设备 / 协作者创建了新分支，需先合并到 main 再推送：
+  1. `git branch -a` 查看全部分支
+  2. `git merge <分支名>` 合并到当前分支
+  3. 有冲突：解决后 `git add -A && git commit`
+  4. 再按上面「完整步骤」推送
+- 没有未推送提交时 `git status` 显示干净 / "up to date" = 已上传完毕
 
 ### ⚠️ 代理坑（必看，否则推送失败）
 - 全局 git 配置了 `http.proxy = http://127.0.0.1:7890`（Clash 代理）
@@ -78,7 +89,7 @@ vault 根
 - 关系图谱已打通（笔记 ↔ 知识卡片 ↔ Claudian.md 双向链接）
 
 ## 📌 待办 / 未决
-- [ ] **仪表盘重建**：`00-仪表盘.md` 已删（git 无历史），FR-6 标了「待重建」——Bruce 说一声就建
+- [x] **仪表盘重建**：`00-仪表盘.md` 已删（git 无历史），FR-6 标了「待重建」——Bruce 说一声就建
 - [ ] **wiki 第一波分类**：raw 攒够素材后，Claudian 分类整理
 - [ ] 评分表行 1 有异常值 `7`（5 分制）——待 Bruce 确认清掉
 - [ ] Dataview 渲染曾有问题（2026-08-18 诊断中，Bruce 重启后未回报结果）——若系统已正常显示可忽略

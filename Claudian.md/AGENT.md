@@ -40,6 +40,8 @@ vault 根
 
 **仓库**：https://github.com/bruceleeu-creator/My-Obsidian.git（**公开**仓库）
 
+> `执行2026/`（周计划执行表 md 归档，源自 Windows 库）随本仓库推送备份；Windows 库为本地 git 仓库，仅本仓库承载其云端备份（2026-08-19 起）。
+
 ### 上传 GitHub 完整步骤
 1. **查看改动**：`git status`（确认改了哪些文件）
 2. **暂存**：`git add -A`（⚠️ 永不手动加 `.claudian/`、`.DS_Store`、`workspace*.json`）

@@ -1,6 +1,6 @@
 ---
 type: agent-context
-updated: 2026-08-19
+updated: 2026-08-21
 ---
 
 # AGENT.md — Bruce × Claudian 协作上下文
@@ -83,9 +83,9 @@ vault 根
 | raw 素材 | `YYYY-MM-DD 随便写` | `type: raw` |
 | wiki 知识 | `主题名` | `type: wiki` + 分类标签 |
 
-## 🧭 当前状态（2026-08-19 快照）
-- **Cycle-3** active；本周 **W34**（8/17-8/23）
-- P0 发票溯源 ✅；P1 利润表 🔄（8/19 流畅度 + UI 重构 ✅，8/20 部署）；P2 合同拆分 🔄（8/19 前端重构 + bug 修订 ✅）
+## 🧭 当前状态（2026-08-21 快照）
+- **Cycle-3** active；本周 **W34**（8/17-8/23），今日 8/21 周五
+- P0 发票溯源 ✅；P1 利润表 ✅（8/20 部署上线，生产稳定）；P2 合同拆分 ✅（8/21 回归 + 边界通过）；P3 知识库权重 🔄（今日下午）；P4 小红书工具 / P5 方法论 ⏳（8/22-23）
 - 原子卡片 + MOC 体系已移除（2026-08-19），知识统一走 raw → wiki
 - 关系图谱已打通（笔记 ↔ 知识卡片 ↔ Claudian.md 双向链接，6 组 colorGroups 按类型上色）
 - 双库共用仓库完成（2026-08-19）：Mac + Windows 均推送 `bruceleeu-creator/My-Obsidian` main

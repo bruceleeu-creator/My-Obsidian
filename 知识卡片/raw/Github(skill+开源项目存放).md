@@ -5,4 +5,5 @@
 5.https://github.com/everett7623/airport-recommendations-2026 2026年机场的推荐仓库
 6.https://github.com/momozi1996/awesome-ai-persona-skills    很棒-AI-人格技能，蒸馏大全1
 7.https://github.com/mliu98/awesome-human-distillation  蒸馏人大全
+8.https://github.com/0xnyk/council-of-high-intelligence 人物蒸馏4.1kstar
 

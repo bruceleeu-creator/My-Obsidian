@@ -10,3 +10,4 @@
 10.https://github.com/dave1010/skills-to-agents 把 Claude Skills 转成 AGENTS.md 给任意编码 agent 用（已由 Claudia 整理进 wiki）
 11.https://github.com/volcengine/OpenViking  -给 AI Agent 做的上下文数据库
 12.https://github.com/AlexsJones/llmfit  本地能跑什么模型
+13.https://github.com/unslothai/unsloth   开源 AI 模型训练工具Unsloth

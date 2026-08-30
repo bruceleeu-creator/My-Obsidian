@@ -1,6 +1,6 @@
 ---
 type: agent-context
-updated: 2026-08-25
+updated: 2026-08-30
 ---
 
 # AGENT.md — Bruce × Claudian 协作上下文
@@ -11,14 +11,14 @@ updated: 2026-08-25
 - 称呼：Bruce（可以叫 bro）
 - 交流语言：中文，口语化，别端着
 - 工作：前端开发（周任务里全是利润表、发票溯源、合同拆分这类活）
-- 双库环境（共用同一套防弹笔记法 + 同一 GitHub 仓库，2026-08-19 起统一）：
+- 双库环境（共用同一套防弹笔记法 + 同一套远程仓库：GitHub + Gitea 双远程，2026-08-19 起统一）：
   - **Mac 库**：`~/Desktop/学习知识库/Bruce（MacObsidian）`
   - **Windows 库**：`C:\Users\Administrator\Desktop\BruceW(Obsidians)`
 - 本文件两个库共用：Claudian 在哪个库运行，就在哪个库执行，内容以本文件约定为准
 
 ## 🏗️ 当前系统：防弹笔记法（2026-08 建成）
 **核心**：日志收件箱 + ACT 三步分流
-- **A** 任务 → [[任务/周任务/README|周任务]]（每周一篇 `2026-W34`）
+- **A** 任务 → [[任务/周任务/README|周任务]]（每周一篇 `2026-W36`）
 - **C** 知识 → [[../知识卡片/raw/README|raw 素材箱]]（乱丢）→ 提炼成 [[../知识卡片/wiki/README|wiki 知识库]]（Claudian 分类整理）
 - **T** 目标 → [[目标/十二周周期/README|十二周周期]]（`2026-Cycle-3`，W25-W36，2026-09-06 结束）
 
@@ -38,29 +38,37 @@ vault 根
 1. **流程**：先提问澄清 → 需求/设计文档 → 执行计划 → 执行（Bruce 确认后再动手）
 2. **README**：每个文件夹都要有，用简单口语中文
 3. **文档**：系统文档集中在 `Claudian.md/`（AGENT.md + 模板），改动系统后同步更新本文件
-4. **Git**：内容有更新就 commit + push 到共用仓库 `bruceleeu-creator/My-Obsidian`——**细则见下方「📤 共用仓库备份细则」，必读必守**
+4. **Git**：内容有更新就 commit + push **双远程都要推**——GitHub（`origin`）+ Gitea（`gitea`）——**细则见下方「📤 双远程备份细则」，必读必守**
 5. **模板**：3 个（日志/周任务/周期），放 `Claudian.md/模板/`；周任务模板的 `cycle` 链接每周期要换
 
-## 📤 共用仓库备份细则（Mac 库 + Windows 库共用，所有协作者必守）
+## 📤 双远程备份细则（GitHub + Gitea，所有协作者必守）
 
-**仓库**：https://github.com/bruceleeu-creator/My-Obsidian.git（**公开**仓库）
+本库配了**两个远程，提交后两个都要推**（2026-08-30 起按此执行）：
 
-**双库共用同一 `main` 分支**（2026-08-19 起）：
-- Mac 库与 Windows 库都 push / pull 这一个仓库、这一个分支
-- 两库数据（任务 / 日志 / 知识卡片 / 周期 / 执行2026）保持一致；`.obsidian` 配置以仓库为准，各库 pull 后本地生效
-- 换机 / 双机同步：`git pull origin main` 拉最新，改完 `git push origin main` 推回
+| 远程名 | 地址 | 用途 |
+|--------|------|------|
+| `origin` | https://github.com/bruceleeu-creator/My-Obsidian.git | GitHub 主备份（**公开**仓库） |
+| `gitea` | http://49.232.160.7:3000/team/Bruce-Obsidian.git | 自建 Gitea 备份（腾讯云轻量服务器） |
 
-### 完整步骤（Mac / Windows 通用）
+> 查看远程：`git remote -v`。注意 Gitea 是**自建服务器**，不是 gitee.com。
+
+### 完整步骤（每次提交都要做全）
 1. **查看改动**：`git status`（确认改了哪些文件）
 2. **暂存**：`git add -A`（⚠️ 永不手动加 `.claudian/`、`workspace*.json`、`database.sqlite`——已在 .gitignore）
 3. **提交**：`git commit -m "<type>: <中文描述>"`，type 用 `feat / fix / docs / refactor / chore`
-4. **推送**：`git -c http.proxy= -c https.proxy= push origin main`（Mac 需绕 Clash 代理；Windows 加上无害）
-5. **确认成功**：`git status` 显示工作区干净 = 已同步；或 `git -c http.proxy= -c https.proxy= ls-remote origin` 查远程 main 的 hash
+4. **推送 GitHub**：
+   - **Windows**：`git push origin main` ——直接走默认代理即可；**不要加 `-c http.proxy= -c https.proxy=` 去代理**，这台机器直连 GitHub 443 不通，去代理的命令必失败（2026-08-30 实测）
+   - **Mac**：`git -c http.proxy= -c https.proxy= push origin main`（Mac 需绕 Clash 代理）
+5. **推送 Gitea**：`git push gitea main` ——直连服务器 IP 的 http 地址，正常情况直接推
+6. **确认成功**：`git status` 显示工作区干净 = 本地已提交；再看两边远程都到位：
+   - `git -c http.proxy= -c https.proxy= ls-remote origin main`（Mac 去代理查；Windows 直接 `git ls-remote origin main`）
+   - `git ls-remote gitea main`
 
 ### 分支说明
-- 仓库只用 `main` 一个分支，推送目标始终是 `origin main`
-- 某台机器 pull 到冲突（两边改了同一文件）时：先 `git pull` 看冲突列表，解决后 `git add -A && git commit` 再 push
-- 没有未推送提交时 `git status` 显示干净 / "up to date" = 已上传完毕
+- 两个远程都只用 `main` 一个分支
+- 换机 / 双机同步：先 `git pull origin main` 拉最新（Mac 端可能需要同样去代理写法），改完按上面步骤推双远程
+- pull 到冲突（两边改了同一文件）：解决冲突后 `git add -A && git commit`，再分别 push 两个远程
+- Gitea 推送失败先查网络 / 服务器状态（49.232.160.7 是腾讯云轻量服务器）；GitHub 推送失败先确认没去掉代理
 
 ### 提交规范
 - conventional commits 前缀 + 中文描述，写清楚改了什么：
@@ -77,19 +85,19 @@ vault 根
 ## 📐 数据结构速查
 | 文件 | 命名 | 关键 frontmatter |
 |------|------|-----------------|
-| 日志 | `YYYY-MM-DD` | `week: "[[2026-W34]]"`、`type: log` |
-| 周任务 | `YYYY-Www` | `cycle: "[[2026-Cycle-3]]"`、`type: weekly` |
-| 周期 | `YYYY-Cycle-N` | `start/end/status: active` |
+| 日志 | `YYYY-MM-DD` | `week: "[[2026-W36]]"`、`type: log` |
+| 周任务 | `YYYY-Www` | `cycle: "[[2026-Cycle-3]]"`、`type: weekly` || 周期 | `YYYY-Cycle-N` | `start/end/status: active` |
 | raw 素材 | `YYYY-MM-DD 随便写` | `type: raw` |
 | wiki 知识 | `主题名` | `type: wiki` + 分类标签 |
 
-## 🧭 当前状态（2026-08-24 快照）
-- **Cycle-3** active；本周 **W35**（8/24-8/30），今日 8/24 周一
-- 上周 W34 已归档：P0-P3 全 ✅（利润宝 8/20 部署上线）；P4 小红书 🔄、P5 方法论 ⏳（8/22-23）
-- 本周 W35 主题：部署上周系统到服务器 + 服务器安全维护（API key / 腾讯云凭证保护）+ 硅行业市场分析系统（见 [[任务/周任务/2026-W35|2026-W35]]）；原「知识库分级系统」已从本周移除（2026-08-25）；硅行业 8/26-27 暂缓（老板不在），周三转合同拆分云端优化、周四利润宝云端优化 + 账号隔离 + 后台管理，硅行业需求文档已定稿在桌面
-- 原子卡片 + MOC 体系已移除（2026-08-19），知识统一走 raw → wiki
+## 🧭 当前状态（2026-08-30 快照）
+- **Cycle-3** active，仅剩收官一周：本周 **W36**（8/31-9/6，开学过渡周），9/7 起 Cycle-4；9/6 周日做周期收官复盘
+- 上周 W35 已归档（8/30）：三系统部署上线 ✅、合同拆分/利润宝云端优化 ✅、账号隔离+后台管理 ✅、安全盘点+整改计划成文（执行待确认）；硅行业 🚫 暂缓待老板过稿；影子机器人换模型 ⏳ 顺延 W36
+- 本周 W36 主题：开学过渡 + 行业面板内容更新（新工作任务）+ 发票溯源续更（服务器 OCR + 密钥存储）——见 [[任务/周任务/2026-W36|2026-W36]] 与 [[执行2026/2026-W36 周计划执行表|W36 执行表]]；开发任务全部**弹性模式**（有空就干，没空顺延）
+- 单词卡立项（W36 新项目，8/31-9/6 弹性调研）：基于 Anki 开源，见 [[创作区/开发灵感/单词卡开发灵感]]
+- 双远程备份启用（2026-08-30）：GitHub（`origin`）+ Gitea（`gitea`）**两边都要推**，Windows 推 GitHub 必须走默认代理（去代理必失败）——细则见上方「📤 双远程备份细则」
 - 关系图谱已打通（笔记 ↔ 知识卡片 ↔ Claudian.md 双向链接，6 组 colorGroups 按类型上色）
-- 双库共用仓库完成（2026-08-19）：Mac + Windows 均推送 `bruceleeu-creator/My-Obsidian` main
+- 双库共用仓库（2026-08-19 起）：Mac + Windows 均推同一仓库 main
 
 ## 📌 待办 / 未决
 - [x] 仪表盘：已确认不重建（`00-仪表盘.md` 已删，git 无历史）

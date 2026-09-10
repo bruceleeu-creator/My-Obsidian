@@ -48,7 +48,7 @@ vault 根
 | 远程名 | 地址 | 用途 |
 |--------|------|------|
 | `origin` | https://github.com/bruceleeu-creator/My-Obsidian.git | GitHub 主备份（**公开**仓库） |
-| `gitea` | http://49.232.160.7:3000/team/Bruce-Obsidian.git | 自建 Gitea 备份（腾讯云轻量服务器） |
+| `gitea` | https://3cc7xt.site:8443/team/Bruce-Obsidian.git | 自建 Gitea 备份（腾讯云轻量服务器，nginx 反代 HTTPS；2026-09-01 起弃用旧地址 `http://49.232.160.7:3000`） |
 
 > 查看远程：`git remote -v`。注意 Gitea 是**自建服务器**，不是 gitee.com。
 
@@ -57,9 +57,9 @@ vault 根
 2. **暂存**：`git add -A`（⚠️ 永不手动加 `.claudian/`、`workspace*.json`、`database.sqlite`——已在 .gitignore）
 3. **提交**：`git commit -m "<type>: <中文描述>"`，type 用 `feat / fix / docs / refactor / chore`
 4. **推送 GitHub**：
-   - **Windows**：`git push origin main` ——直接走默认代理即可；**不要加 `-c http.proxy= -c https.proxy=` 去代理**，这台机器直连 GitHub 443 不通，去代理的命令必失败（2026-08-30 实测）
+   - **Windows**：优先 `git push origin main` 走默认代理（Clash `127.0.0.1:7892`）；**若 Clash 没开**会报 `Failed to connect ... via 127.0.0.1`——此时改用去代理直连重试：`git -c http.proxy= -c https.proxy= push origin main`（2026-09-10 实测直连间歇可用，失败多试几次或先开 Clash）
    - **Mac**：`git -c http.proxy= -c https.proxy= push origin main`（Mac 需绕 Clash 代理）
-5. **推送 Gitea**：`git push gitea main` ——直连服务器 IP 的 http 地址，正常情况直接推
+5. **推送 Gitea**：`git push gitea main` ——2026-09-01 起走域名 HTTPS（凭据已在 Windows 凭据管理器，正常直接推）
 6. **确认成功**：`git status` 显示工作区干净 = 本地已提交；再看两边远程都到位：
    - `git -c http.proxy= -c https.proxy= ls-remote origin main`（Mac 去代理查；Windows 直接 `git ls-remote origin main`）
    - `git ls-remote gitea main`
@@ -68,7 +68,7 @@ vault 根
 - 两个远程都只用 `main` 一个分支
 - 换机 / 双机同步：先 `git pull origin main` 拉最新（Mac 端可能需要同样去代理写法），改完按上面步骤推双远程
 - pull 到冲突（两边改了同一文件）：解决冲突后 `git add -A && git commit`，再分别 push 两个远程
-- Gitea 推送失败先查网络 / 服务器状态（49.232.160.7 是腾讯云轻量服务器）；GitHub 推送失败先确认没去掉代理
+- Gitea 推送失败先查网络 / 服务器状态（49.232.160.7 是腾讯云轻量服务器；服务器 ping 通但端口不通 = Gitea 服务或 nginx 反代挂了，SSH 上去查）；GitHub 推送失败先看是不是 Clash 没开（报 `via 127.0.0.1` 就是），再试去代理直连
 
 ### 提交规范
 - conventional commits 前缀 + 中文描述，写清楚改了什么：
@@ -90,12 +90,11 @@ vault 根
 | raw 素材 | `YYYY-MM-DD 随便写` | `type: raw` |
 | wiki 知识 | `主题名` | `type: wiki` + 分类标签 |
 
-## 🧭 当前状态（2026-08-30 快照）
-- **Cycle-3** active，仅剩收官一周：本周 **W36**（8/31-9/6，开学过渡周），9/7 起 Cycle-4；9/6 周日做周期收官复盘
-- 上周 W35 已归档（8/30）：三系统部署上线 ✅、合同拆分/利润宝云端优化 ✅、账号隔离+后台管理 ✅、安全盘点+整改计划成文（执行待确认）；硅行业 🚫 暂缓待老板过稿；影子机器人换模型 ⏳ 顺延 W36
-- 本周 W36 主题：开学过渡 + 行业面板内容更新（新工作任务）+ 发票溯源续更（服务器 OCR + 密钥存储）——见 [[任务/周任务/2026-W36|2026-W36]] 与 [[执行2026/2026-W36 周计划执行表|W36 执行表]]；开发任务全部**弹性模式**（有空就干，没空顺延）
-- 单词卡立项（W36 新项目，8/31-9/6 弹性调研）：基于 Anki 开源，见 [[创作区/开发灵感/单词卡开发灵感]]
-- 双远程备份启用（2026-08-30）：GitHub（`origin`）+ Gitea（`gitea`）**两边都要推**，Windows 推 GitHub 必须走默认代理（去代理必失败）——细则见上方「📤 双远程备份细则」
+## 🧭 当前状态（2026-09-10 快照）
+- **Cycle-3** 收官补做中：W36（8/31-9/6）整周未启动，已整周顺延为 **W37**（9/7-9/13，随机排布、周末空置）；Cycle-3 复盘随 W37 T07 于周五 9/11 晚补做，9/14 起 Cycle-4
+- W37 进展（9/10）：T01 开学事务 ✅（9/7）、T02 行业面板=硅行业看板内容全部制作完成 ✅（9/10 提前）、影子机器人换模型 GLM-5.3-Flash ✅（9/10）、服务器运维 MCP 搭建 ✅（9/10）；T03 发票溯源 OCR+密钥（弹性）待推进，T04 小红书 / T05 单词卡（弹性）未动；9/8-9/9 日志缺勤，9/10 起恢复
+- 单词卡立项（弹性调研）：基于 Anki 开源，见 [[创作区/开发灵感/单词卡开发灵感]]
+- 双远程备份：GitHub（`origin`）+ Gitea（`gitea`）**两边都要推**；Gitea 2026-09-01 起改域名 HTTPS（旧 IP:3000 已废弃）；Windows 推 GitHub 首选默认代理，Clash 未开时去代理直连重试——细则见上方「📤 双远程备份细则」
 - 关系图谱已打通（笔记 ↔ 知识卡片 ↔ Claudian.md 双向链接，6 组 colorGroups 按类型上色）
 - 双库共用仓库（2026-08-19 起）：Mac + Windows 均推同一仓库 main
 

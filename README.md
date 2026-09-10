@@ -26,7 +26,7 @@ vault 根
 | 远程名 | 地址 | 用途 |
 |--------|------|------|
 | `origin` | https://github.com/bruceleeu-creator/My-Obsidian.git | GitHub 主备份（公开仓库） |
-| `gitea` | http://49.232.160.7:3000/team/Bruce-Obsidian.git | 自建 Gitea 备份（腾讯云轻量服务器） |
+| `gitea` | https://3cc7xt.site:8443/team/Bruce-Obsidian.git | 自建 Gitea 备份（腾讯云轻量服务器，nginx 反代 HTTPS；2026-09-01 起弃用旧地址 `http://49.232.160.7:3000`） |
 
 > 查看远程：`git remote -v`。注意 Gitea 是自建服务器，**不是** gitee.com。
 
@@ -43,12 +43,13 @@ git add -A
 git commit -m "feat: 本次改了什么"
 
 # 4. 推送 GitHub
-#    Windows：直接走默认代理，不要去代理！
+#    Windows：优先走默认代理；Clash 没开（报 via 127.0.0.1）就去代理直连重试
 git push origin main
+git -c http.proxy= -c https.proxy= push origin main   # Clash 未开时用这行
 #    Mac：需绕 Clash 代理，用这个写法
 git -c http.proxy= -c https.proxy= push origin main
 
-# 5. 推送 Gitea（直连服务器 http 地址）
+# 5. 推送 Gitea（2026-09-01 起走域名 HTTPS）
 git push gitea main
 
 # 6. 确认两边都到位
@@ -57,11 +58,12 @@ git ls-remote origin main          # Windows 直接查
 git -c http.proxy= -c https.proxy= ls-remote origin main   # Mac 去代理查
 ```
 
-### ⚠️ Windows 推 GitHub 的坑（实测）
+### ⚠️ Windows 推 GitHub 的坑（2026-09-10 更新）
 
-这台 Windows 机器**直连 GitHub 443 不通**：
-- ✅ 正确做法：`git push origin main`，走默认代理
-- ❌ 错误做法：`git -c http.proxy= -c https.proxy= push origin main`（去代理）——必失败，Windows 上别用这个写法（Mac 上才用）
+这台 Windows 机器的网络现状：
+- 首选 `git push origin main` 走默认代理（Clash `127.0.0.1:7892`）
+- **Clash 没开**时 push 报 `Failed to connect ... via 127.0.0.1`——改用去代理直连：`git -c http.proxy= -c https.proxy= push origin main`（9/10 实测直连**间歇可用**，失败多试几次或先把 Clash 开起来）
+- 库内与全局配置里的死代理已于 9/10 清理；若日后直连又不通，`git config --global http.proxy http://127.0.0.1:7892` 加回来即可
 
 ### 换机 / 双机同步
 
@@ -71,8 +73,8 @@ git pull origin main    # 拉最新（Mac 端可能需同样去代理写法）
 ```
 
 - pull 到冲突（两边改了同一文件）：解决后 `git add -A && git commit`，再分别 `git push origin main` + `git push gitea main`
-- Gitea 推送失败：先查网络 / 服务器状态（49.232.160.7 是腾讯云轻量服务器）
-- GitHub 推送失败：Windows 先确认**没去掉代理**
+- Gitea 推送失败：确认用的是新域名地址（旧 IP:3000 已于 2026-09-01 废弃）；服务器 ping 通但端口不通 = Gitea 服务或 nginx 反代挂了，SSH 上去查
+- GitHub 推送失败：报 `via 127.0.0.1` = Clash 没开，改去代理直连；直连超时则开 Clash 再试
 
 ### 提交规范
 

@@ -11,10 +11,11 @@ updated: 2026-09-27
 - 称呼：Bruce（可以叫 bro）
 - 交流语言：中文，口语化，别端着
 - 工作：前端开发（周任务里全是利润表、发票溯源、合同拆分这类活）
-- 双库环境（共用同一套防弹笔记法 + 同一套远程仓库：GitHub + Gitea 双远程，2026-08-19 起统一）：
+- 多机环境（共用同一套防弹笔记法 + 同一套远程仓库：GitHub + Gitea 双远程，2026-08-19 起统一）：
+  - **Linux 库（主力机，2026-09-28 起）**：`/home/leeu/文档/个人知识库`（Fedora；每日 07:00 定时同步在此机运行）
   - **Mac 库**：`~/Desktop/学习知识库/Bruce（MacObsidian）`
   - **Windows 库**：`C:\Users\Administrator\Desktop\BruceW(Obsidians)`
-- 本文件两个库共用：Claudian 在哪个库运行，就在哪个库执行，内容以本文件约定为准
+- 本文件多机共用：Claudian 在哪个库运行，就在哪个库执行，内容以本文件约定为准
 
 ## 🏗️ 当前系统：防弹笔记法（2026-08 建成）
 **核心**：日志收件箱 + ACT 三步分流
@@ -57,9 +58,10 @@ vault 根
 2. **暂存**：`git add -A`（⚠️ 永不手动加 `.claudian/`、`workspace*.json`、`database.sqlite`——已在 .gitignore）
 3. **提交**：`git commit -m "<type>: <中文描述>"`，type 用 `feat / fix / docs / refactor / chore`
 4. **推送 GitHub**：
+   - **Linux（主力机）**：本机 `origin` 指向 Gitea SSH，**GitHub 未配远程名**——用 SSH 直推：`git push git@github.com:bruceleeu-creator/My-Obsidian.git main`（本机 `id_ed25519` 已绑定 bruceleeu-creator 账号，2026-09-28 验证可用）
    - **Windows**：优先 `git push origin main` 走默认代理（Clash `127.0.0.1:7892`）；**若 Clash 没开**会报 `Failed to connect ... via 127.0.0.1`——此时改用去代理直连重试：`git -c http.proxy= -c https.proxy= push origin main`（2026-09-10 实测直连间歇可用，失败多试几次或先开 Clash）
    - **Mac**：`git -c http.proxy= -c https.proxy= push origin main`（Mac 需绕 Clash 代理）
-5. **推送 Gitea**：`git push gitea main` ——2026-09-01 起走域名 HTTPS（凭据已在 Windows 凭据管理器，正常直接推）
+5. **推送 Gitea**：`git push gitea main` ——2026-09-01 起走域名 HTTPS（凭据已在 Windows 凭据管理器，正常直接推）；**Linux（主力机）**：本机 `origin` 就是 Gitea（SSH），直接 `git push origin main`
 6. **确认成功**：`git status` 显示工作区干净 = 本地已提交；再看两边远程都到位：
    - `git -c http.proxy= -c https.proxy= ls-remote origin main`（Mac 去代理查；Windows 直接 `git ls-remote origin main`）
    - `git ls-remote gitea main`
@@ -95,7 +97,7 @@ vault 根
 - **W38-W39（9/14-9/27）空档期**：原定 9/14 启动的 Cycle-4 未启动，日志停于 9-14，历史不补造。旧顺延项（小红书优化、单词卡 MVP 立项）未带入 Cycle-4，处置待 10/25 月度复盘再定
 - **硅行业面板恢复开发**：原「🚫 暂缓待老板过稿」，按 Bruce 9/27 指令重启；W40 周一先过稿确认。**仓库地址 Bruce 未提供，待回填到 Cycle-4 文件**
 - 双远程备份：GitHub（`origin`）+ Gitea（`gitea`）**两边都要推**；Gitea 2026-09-01 起改域名 HTTPS（旧 IP:3000 已废弃）；Windows 推 GitHub 首选默认代理，Clash 未开时去代理直连重试——细则见上方「📤 双远程备份细则」
-- 🤖 **每日定时同步运行中（2026-09-12 上线）**：每天 07:00 自动全库同步（日志→周任务/状态快照，raw→wiki，提交+双推），操作手册 [[Agent手册/定时任务/每日同步SOP|每日同步 SOP]]，留痕 [[Agent手册/定时任务/运行记录|运行记录]]。注意：W40-W43 **无执行表**（执行2026/ 未建），周任务文件为排期唯一来源，同步下游只更周任务 + 本快照
+- 🤖 **每日定时同步运行中（2026-09-12 上线；2026-09-28 起在 Linux 主力机上运行）**：每天 07:00 自动全库同步（日志→周任务/状态快照，raw→wiki，提交+双推），操作手册 [[Agent手册/定时任务/每日同步SOP|每日同步 SOP]]，留痕 [[Agent手册/定时任务/运行记录|运行记录]]。Mac/Windows 上若旧定时任务还在，注意**双跑冲突**：开工前先 `git pull origin main`（Linux）再干活，以 git 状态为准。注意：W40-W43 **无执行表**（执行2026/ 未建），周任务文件为排期唯一来源，同步下游只更周任务 + 本快照
 - 关系图谱已打通（笔记 ↔ 知识卡片 ↔ Claudian.md 双向链接，6 组 colorGroups 按类型上色）
 - 双库共用仓库（2026-08-19 起）：Mac + Windows 均推同一仓库 main
 

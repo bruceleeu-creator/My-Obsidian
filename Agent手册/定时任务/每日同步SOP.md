@@ -1,7 +1,7 @@
 ---
 type: agent-sop
-updated: 2026-09-14
-trigger: 每日 07:00 定时任务「每日Obsidian日志更新」
+updated: 2026-09-28
+trigger: 每日 07:00 定时任务「每日Obsidian日志更新」（2026-09-28 起 Linux 主力机）
 ---
 
 # 每日同步 SOP（定时任务操作手册）
@@ -28,6 +28,7 @@ trigger: 每日 07:00 定时任务「每日Obsidian日志更新」
 ### Step 1 · 侦察改动（自上次同步以来 Bruce 做了什么）
 ```bash
 git status                     # 未提交的（上次定时运行可能留了尾巴，一并收尾）
+git pull --ff-only origin main # 多机共用 main，开工先拉齐（另一台机器可能推过；有未提交改动冲突就停下写运行记录）
 git log --oneline -5           # 上次同步点
 git diff HEAD                  # 看具体改了什么
 git log --since="2 days ago" --name-only --oneline   # 近两天的提交涉及哪些文件
@@ -85,6 +86,11 @@ git commit -m "<type>: <中文描述，写清楚同步了什么>"
 
 ### Step 6 · 双推（完整细则见 [[Claudian.md/AGENT|AGENT.md]]「📤 双远程备份细则」）
 ```bash
+# Linux（主力机，2026-09-28 起定时任务在本机跑）：
+git push origin main                                              # 本机 origin = Gitea（SSH），直推
+git push git@github.com:bruceleeu-creator/My-Obsidian.git main    # GitHub 未配远程名，SSH 直推（id_ed25519 已绑定账号）
+
+# Windows / Mac 参考写法：
 git push origin main                                  # 首选默认代理
 git -c http.proxy= -c https.proxy= push origin main   # 报 via 127.0.0.1 时用（清晨 Clash 多半没开，可直接用这个）
 git push gitea main                                   # Gitea 走域名 HTTPS，一般直推成功
